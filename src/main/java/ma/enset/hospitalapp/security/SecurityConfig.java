@@ -22,13 +22,15 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
         return new InMemoryUserDetailsManager(
-            User.withUsername("ahmed").password(passwordEncoder().encode("1234")).roles("USER","ADMIN").build(),
+                User.withUsername("ahmed").password(passwordEncoder().encode("1234")).roles("USER","ADMIN").build(),
                 User.withUsername("wafaa").password(passwordEncoder().encode("1234")).roles("USER").build()
         );
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.formLogin();
+        httpSecurity.authorizeHttpRequests().requestMatchers("/user/**").hasRole("USER");
+        httpSecurity.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN");
         httpSecurity.authorizeHttpRequests().anyRequest().authenticated();
         return httpSecurity.build();
     }
