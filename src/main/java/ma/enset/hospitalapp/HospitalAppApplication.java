@@ -1,16 +1,22 @@
 package ma.enset.hospitalapp;
 
+import lombok.AllArgsConstructor;
 import ma.enset.hospitalapp.entities.Patient;
 import ma.enset.hospitalapp.repository.PatientRepository;
+import ma.enset.hospitalapp.security.SecurityConfig;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import java.util.Date;
 
 @SpringBootApplication
+@AllArgsConstructor
 public class HospitalAppApplication {
+    private SecurityConfig securityConfig;
     public static void main(String[] args) {
         SpringApplication.run(HospitalAppApplication.class, args);
     }
@@ -23,5 +29,18 @@ public class HospitalAppApplication {
             patientRepository.save(new Patient(null,"Yassine",new Date(),true,342));
             patientRepository.save(new Patient(null,"Laila",new Date(),false,123));
         };
+    }
+
+    @Bean
+    CommandLineRunner commandLineRunner (JdbcUserDetailsManager jdbcUserDetailsManager){
+        return args -> {
+            jdbcUserDetailsManager.createUser(
+                    User.withUsername("enouri").password(securityConfig.passwordEncoder().encode("1234")).roles("USER","ADMIN").build()
+            );
+            jdbcUserDetailsManager.createUser(
+                    User.withUsername("moujib").password(securityConfig.passwordEncoder().encode("1234")).roles("USER").build()
+            );
+        };
+
     }
 }
