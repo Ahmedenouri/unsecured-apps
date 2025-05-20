@@ -31,16 +31,4 @@ public class HospitalAppApplication {
         };
     }
 
-    @Bean
-    CommandLineRunner commandLineRunner (JdbcUserDetailsManager jdbcUserDetailsManager){
-        return args -> {
-            jdbcUserDetailsManager.createUser(
-                    User.withUsername("enouri").password(securityConfig.passwordEncoder().encode("1234")).roles("USER","ADMIN").build()
-            );
-            jdbcUserDetailsManager.createUser(
-                    User.withUsername("moujib").password(securityConfig.passwordEncoder().encode("1234")).roles("USER").build()
-            );
-        };
-
-    }
 }
