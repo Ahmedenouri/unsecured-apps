@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AppRole {
     @Id
-    private String id;
     @Column(unique = true)
     private String role;
 }

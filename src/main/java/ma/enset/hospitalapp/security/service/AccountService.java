@@ -4,9 +4,9 @@ import ma.enset.hospitalapp.security.entities.AppRole;
 import ma.enset.hospitalapp.security.entities.AppUser;
 
 public interface AccountService {
-    AppUser addUser (AppUser appUser ,String CnfPass);
-    AppRole addROle (AppRole appRole);
-    void addRoleToUser (AppUser user,AppRole appRole);
+    AppUser addUser (String username,String password,String email ,String CnfPass);
+    AppRole addRole (String role);
+    void addRoleToUser (String username,String role);
     void removeRoleToUser (String Username,String Role);
     AppUser loadUserByUsername (String username);
 }
